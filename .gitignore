@@ -1,17 +1,11 @@
-# Ignore Play! working directory #
-bin/
-/db
-.eclipse
-/lib/
-/logs/
-/modules
-/project/project
-/project/target
-/target
+Gemfile.lock
+.DS_Store
+.yardoc/
+doc/
 tmp/
-test-result
-server.pid
-*.iml
-*.eml
-/dist/
-.cache
+log/
+pkg/
+*.swp
+/.bundle
+.rvmrc
+coverage
