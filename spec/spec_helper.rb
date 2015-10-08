@@ -89,3 +89,9 @@ def temp_file(kB)
   yield f
   f.unlink()
 end
+
+def normal_auth
+  return ['QWYn5TFQsLLU1pL5MFEmX3s5DmHdUThav9WyOWOm',
+          'Bxckh6FA-Fbs9Yt3i3cbKVK22UPBmAOHJcL95pGz'
+          ]
+end

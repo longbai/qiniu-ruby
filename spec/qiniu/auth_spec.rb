@@ -23,12 +23,12 @@ describe Qiniu::Auth do
     describe '.sign_request' do
       it 'not form request' do
         token = dummy.sign_request('http://www.qiniu.com?go=1', 'test')
-        expect(token).to eq('abcdefghklmnopq:cFyRVoWrE3IugPIMP5YJFTO-O-Y=')
+        expect(token).to eq('QBox abcdefghklmnopq:cFyRVoWrE3IugPIMP5YJFTO-O-Y=')
       end
 
       it 'form request' do
         token = dummy.sign_request('http://www.qiniu.com?go=1', 'test', Qiniu::Http::FORM_MIME)
-        expect(token).to eq('abcdefghklmnopq:svWRNcacOE-YMsc70nuIYdaa1e4=')
+        expect(token).to eq('QBox abcdefghklmnopq:svWRNcacOE-YMsc70nuIYdaa1e4=')
       end
     end
 
@@ -66,15 +66,17 @@ describe Qiniu::Auth do
 
     describe '.upload_token' do
       it 'enduser' do
-        token = dummy.upload_token('1', '2', 3600, {:enduser => 'y'})
-        exp = 'abcdefghklmnopq:yyeexeUkPOROoTGvwBjJ0F0VLEo=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiMToyIiwiZGVhZGxpbmUiOjEyMzQ1NzE0OTB9'
-        expect(token).to eq(token)
+        allow(Time).to receive(:now) { now }
+        token = dummy.upload_token('1', '2', 3600, {:endUser => 'y'})
+        exp = 'abcdefghklmnopq:zx3NdMGffQ0JhUlgGSU5oeTx9Nk=:eyJzY29wZSI6IjE6MiIsImRlYWRsaW5lIjoxMjM0NTcxNDkwLCJlbmRVc2VyIjoieSJ9'
+        expect(token).to eq(exp)
       end
 
       it 'invalid policy' do
-        token = dummy.upload_token('1', '2', 3600, {:enduser => 'y', :abc => 'a', 'deadline' => 16})
-        exp = 'abcdefghklmnopq:yyeexeUkPOROoTGvwBjJ0F0VLEo=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiMToyIiwiZGVhZGxpbmUiOjEyMzQ1NzE0OTB9'
-        expect(token).to eq(token)
+        allow(Time).to receive(:now) { now }
+        token = dummy.upload_token('1', '2', 3600, {:endUser => 'y', :abc => 'a', 'deadline' => 16})
+        exp = 'abcdefghklmnopq:zx3NdMGffQ0JhUlgGSU5oeTx9Nk=:eyJzY29wZSI6IjE6MiIsImRlYWRsaW5lIjoxMjM0NTcxNDkwLCJlbmRVc2VyIjoieSJ9'
+        expect(token).to eq(exp)
       end
 
     end

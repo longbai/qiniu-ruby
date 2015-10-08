@@ -10,7 +10,6 @@ require 'digest'
 
 module Qiniu
   module Utils extend self
-    BLOCK_SIZE = 4 *1024*1024
 
     def urlsafe_base64_encode(content)
       Base64.urlsafe_encode64(content)
@@ -30,7 +29,7 @@ module Qiniu
       sha1 = []
       open(file_name, "rb") do |f|
         until f.eof?
-          chunk = f.read(BLOCK_SIZE)
+          chunk = f.read(Config::BLOCK_SIZE)
           sha1 << Digest::SHA1.digest(chunk)
         end
       end

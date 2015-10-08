@@ -43,11 +43,11 @@ module Qiniu
           signing_str += body
       end
 
-      return sign(signing_str)
+      return 'QBox ' + sign(signing_str)
     end
 
     def is_valid_callback?(origin_authorization, url, body, content_type)
-      authorization = 'QBox ' + sign_request(url, body, content_type);
+      authorization = sign_request(url, body, content_type);
       return authorization == origin_authorization
     end
 
@@ -85,8 +85,8 @@ module Qiniu
       def initialize(scope, deadline, options={})
         @policy = {:scope => scope, :deadline => deadline}
         options.each do |k, v|
-          if FIELDS[k.to_s]
-            policy[k] = v
+          if FIELDS[k.intern]
+            @policy[k] = v
           end
         end
       end
